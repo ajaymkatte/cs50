@@ -1,35 +1,42 @@
 #include<stdio.h>
 #include<cs50.h>
+int get_amount(void)
+{
+    float amount;
+    do
+    {
+        printf("O hai! How much change is owed?\n");
+        amount=get_float();
+    }
+    while(amount<0);
+    amount *=1000;
+    return amount;
+}
 int main (void)
 {
-    printf("O hai! How much change is owed?\n");
-    float owed;
-    int junk;
-    owed=get_float();
-    if(owed<0)
-        return 0;
-    junk=owed*100;
-    junk=junk%100;
-    int sum=0;
-    while(junk>=25)
+    int amount = get_amount();
+    int count=0;
+    if(amount<0)
+        count=1;
+    while(amount>=250)
     {
-        sum++;
-        junk=junk-25;
+        count++;
+        amount -=250;
     }
-    while(junk>=10)
+    while(amount>=100)
     {
-        sum++;
-        junk=junk-10;
+        count++;
+        amount -=100;
     }
-    while(junk>=5)
+    while(amount>=50)
     {
-        sum++;
-        junk=junk-5;
+        count++;
+        amount -=50;
     }
-    while(junk>=1)
+    while(amount>=10)
     {
-        sum=sum+(junk/1);
-        junk=0;
+        count++;
+        amount -=10;
     }
-    printf("%d\n",sum);
+    printf("%d\n",count);
 }
