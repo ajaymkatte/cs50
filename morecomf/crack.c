@@ -11,24 +11,15 @@ void comparestrings(char* a, char* b)
     int strlen1=strlen(a);
     int strlen2=strlen(b);
     
-    //checks if the strings are of same length//
-    
-    if(strlen1!=strlen2)
-    {
-        printf("not enough length");
-        exit(1);
-    }
-    
     //checks if the strings are the same//
     
     for(int n=0; n<strlen1; n++)
     {
         if(a[n]!=b[n])
-        {
-            printf("error\n");
-            exit(1);   
-        }
+            return;
+        printf("%d\n",n);
     }
+    printf("success\n");
 }
 int main(int argc, string argv[])
 {
@@ -39,6 +30,5 @@ int main(int argc, string argv[])
     }
     char salt[3]={argv[1][0],argv[1][1],'\0'};
     comparestrings(argv[1],final);
-    printf("success\n");
     return 0;
 }
