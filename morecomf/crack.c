@@ -8,12 +8,11 @@
 
 void comparestrings(char* a, char* b)
 {
-    int strlen1=strlen(a);
-    int strlen2=strlen(b);
+    int length=strlen(a);
     
     //checks if the strings are the same//
     
-    for(int n=0; n<strlen1; n++)
+    for(int n=0; n<length; n++)
     {
         if(a[n]!=b[n])
             return;
