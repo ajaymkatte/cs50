@@ -4,22 +4,34 @@
 #include<cs50.h>
 #include<string.h>
 
-//checks if the strings are the same//
+//checks if the strings are the same and if they're indeed the same, prints the password and exits returing 0//
 
-void comparestrings(char* a, char* b)
+void comparestrings(char* finalhashed, char* final, char* hashed)
 {
-    int length=strlen(a);
+    int length=strlen(finalhashed);
     
     //checks if the strings are the same//
     
     for(int n=0; n<length; n++)
     {
-        if(a[n]!=b[n])
-            return;
-        printf("%d\n",n);
+        if(finalhashed[n]!=hashed[n])
+        {
+                return;
+        }
     }
-    printf("success\n");
+    printf("%s\n",final);
+    exit(0);
 }
+
+//passes hashed password and argv[1] for comparing//
+
+
+void comstrandargv(char* final, char* salt, char* hashed)
+{
+    string finalhashed=crypt(final,salt);
+    comparestrings(finalhashed, final, hashed);
+}
+
 int main(int argc, string argv[])
 {
     if(argc!=2)
@@ -27,7 +39,22 @@ int main(int argc, string argv[])
         printf("error\n");
         return 1;
     }
-    char salt[3]={argv[1][0],argv[1][1],'\0'};
-    comparestrings(argv[1],final);
+    
+    char* hashed=argv[1];
+    
+    //scrap salt//
+    
+    char salt[3]={hashed[0], hashed[1], '\0'};
+    
+    //get the pass//
+    
+    for(int n=0; n<10; n++)
+    {
+        for(int p=0; p<26; p++)
+        {
+            char final[2]={'z', '\0'};
+            comstrandargv(final,salt,hashed);
+        }
+    }
     return 0;
 }
