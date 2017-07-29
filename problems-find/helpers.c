@@ -8,6 +8,23 @@
 
 #include "helpers.h"
 
+int checkarray(int values[], int n)
+{
+    int first = values[0];
+    for(int p=1; p<n; p++)
+    {
+        if(first> values[p])
+        {
+            first = 1;
+            return first;
+        }
+        else
+            first = values[p];
+    }
+    first = 0;
+    return first;
+}
+
 /**
  * Returns true if value is in array of n values, else false.
  */
@@ -33,6 +50,20 @@ bool search(int value, int values[], int n)
  */
 void sort(int values[], int n)
 {
-    // TODO: implement a sorting algorithm
+    int check;
+    do
+    {
+        for(int q=0; q<n; q++)
+        {
+            if(values[q]>values[q+1])
+            {
+                int swap=values[q+1];
+                values[q+1]=values[q];
+                values[q]=swap;
+            }
+        }
+        check = checkarray(values, n);
+    }
+    while(check==1);
     return;
 }
