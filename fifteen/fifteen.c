@@ -156,7 +156,22 @@ void greet(void)
  */
 void init(void)
 {
-    // TODO
+    int tile=(d*d)-1;
+    printf("%d\n",tile);
+    for(int p=0; p<d; p++)
+    {
+        for(int q=0; q<d; q++)
+        {
+            board[p][q]=tile;
+            --tile;
+        }
+    }
+    if(d%2==0)
+    {
+        int junk = board[d-1][d-2];
+        board[d-1][d-2]=board[d-1][d-3];
+        board[d-1][d-3]=junk;
+    }
 }
 
 /**
@@ -164,7 +179,14 @@ void init(void)
  */
 void draw(void)
 {
-    // TODO
+    for(int p=0; p<d; p++)
+    {
+        for(int q=0; q<d; q++)
+        {
+            printf("%d\t",board[p][q]);
+        }
+        printf("\n");
+    }
 }
 
 /**
@@ -183,6 +205,17 @@ bool move(int tile)
  */
 bool won(void)
 {
-    // TODO
+    int verify=1;
+    for(int p=0; p<d; p++)
+    {
+        for(int q=0; q<d; q++)
+        {
+            if(p==d-1&&q==d-1&&board[p][q]==0)
+                return true;
+            else if(board[p][q]!=verify)
+                return false;
+        }
+        ++verify;
+    }
     return false;
 }
