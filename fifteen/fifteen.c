@@ -214,8 +214,8 @@ bool won(void)
                 return true;
             else if(board[p][q]!=verify)
                 return false;
+            ++verify;
         }
-        ++verify;
     }
     return false;
 }
