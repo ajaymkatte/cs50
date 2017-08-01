@@ -28,6 +28,8 @@ int board[DIM_MAX][DIM_MAX];
 
 // dimensions
 int d;
+
+//following variables keep track of tile to be moved and the current position of the empty tile
 int length, width, lengthmove, widthmove;
 
 // prototypes
@@ -37,6 +39,7 @@ void init(void);
 void draw(void);
 bool move(int tile);
 bool won(void);
+//search of the tile index
 void searchtile(int tile);
 
 int main(int argc, string argv[])
@@ -56,6 +59,7 @@ int main(int argc, string argv[])
             DIM_MIN, DIM_MIN, DIM_MAX, DIM_MAX);
         return 2;
     }
+    //keeping trakc of the empty tile
     length = d-1;
     width = d-1;
 
@@ -204,7 +208,9 @@ bool move(int tile)
 {
     if(tile<=(d*d)-1)
     {
+        //search for the tile's position
         searchtile(tile);
+        //checks if the move is valid by iterating through the valid positions and retruns true if the move is indeed a valid one
         if(((lengthmove==length-1)&&(widthmove==width))||((lengthmove==length+1)&&(widthmove==width))||((lengthmove==length)&&(widthmove==width+1))||((lengthmove==length)&&(widthmove==width-1)))
         {
             int junk=board[lengthmove][widthmove];
