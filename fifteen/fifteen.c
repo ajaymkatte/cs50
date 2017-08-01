@@ -28,6 +28,7 @@ int board[DIM_MAX][DIM_MAX];
 
 // dimensions
 int d;
+int length, width, lengthmove, widthmove;
 
 // prototypes
 void clear(void);
@@ -36,6 +37,7 @@ void init(void);
 void draw(void);
 bool move(int tile);
 bool won(void);
+void searchtile(int tile);
 
 int main(int argc, string argv[])
 {
@@ -54,6 +56,8 @@ int main(int argc, string argv[])
             DIM_MIN, DIM_MIN, DIM_MAX, DIM_MAX);
         return 2;
     }
+    length = d-1;
+    width = d-1;
 
     // open log
     FILE *file = fopen("log.txt", "w");
@@ -117,11 +121,11 @@ int main(int argc, string argv[])
         if (!move(tile))
         {
             printf("\nIllegal move.\n");
-            usleep(500000);
+            usleep(700000);
         }
 
         // sleep thread for animation's sake
-        usleep(500000);
+        usleep(700000);
     }
     
     // close log
@@ -147,7 +151,7 @@ void greet(void)
 {
     clear();
     printf("WELCOME TO GAME OF FIFTEEN\n");
-    usleep(2000000);
+    usleep(7000000);
 }
 
 /**
@@ -183,7 +187,10 @@ void draw(void)
     {
         for(int q=0; q<d; q++)
         {
-            printf("%d\t",board[p][q]);
+            if(p==length&&q==width)
+                printf("_\t");
+            else
+                printf("%d\t",board[p][q]);
         }
         printf("\n");
     }
@@ -195,7 +202,19 @@ void draw(void)
  */
 bool move(int tile)
 {
-    // TODO
+    if(tile<=(d*d)-1)
+    {
+        searchtile(tile);
+        if(((lengthmove==length-1)&&(widthmove==width))||((lengthmove==length+1)&&(widthmove==width))||((lengthmove==length)&&(widthmove==width+1))||((lengthmove==length)&&(widthmove==width-1)))
+        {
+            int junk=board[lengthmove][widthmove];
+            board[lengthmove][widthmove]=board[length][width];
+            board[length][width]=junk;
+            length=lengthmove;
+            width=widthmove;
+            return true;
+        }
+    }
     return false;
 }
 
@@ -218,4 +237,23 @@ bool won(void)
         }
     }
     return false;
+}
+
+/**
+ * Search the tile index
+ */
+void searchtile(int tile)
+{
+    for(int p=0; p<d; p++)
+    {
+        for(int q=0; q<d; q++)
+        {
+            if(board[p][q]==tile)
+            {
+                lengthmove=p;
+                widthmove=q;
+                return;
+            }
+        }
+    }
 }
