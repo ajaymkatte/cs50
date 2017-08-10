@@ -45,8 +45,8 @@ int main (int argc, char *argv[])
     char *filename = malloc(sizeof(char *));
     
     // read a fresh batch of BYTES
-    fread(&buffer, size, 1, input);
-    while(1 == 1)
+    int x = fread(&buffer, size, 1, input);
+    do
     {
         
         if( buffer[0].pixels == 0xff &&
@@ -62,15 +62,11 @@ int main (int argc, char *argv[])
                 fwrite(&buffer, size, 1, img);
                 
                 // checks size read
-                int x = fread(&buffer, size, 1, input);
+                x = fread(&buffer, size, 1, input);
                 
                 // checks if hit the end of the file
                 if(x < 1)
-                {
-                    fclose(img);
-                    fclose(input);
-                    return 0;
-                }
+                    break;
             }
             while(buffer[0].pixels != 0xff ||
             buffer[1].pixels != 0xd8 ||
@@ -85,16 +81,13 @@ int main (int argc, char *argv[])
         }
         else
         {
-            int x = fread(&buffer, size, 1, input);
+            x = fread(&buffer, size, 1, input);
             
             // checks if hit the end of the file
             if(x < 1)
-            {
-                fclose(input);
-                return 0;
-            }
+                break;
         }
-    }
+    }while(x == 1);
     
     // in case something goes wrong
     
