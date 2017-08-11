@@ -89,7 +89,8 @@ int main (int argc, char *argv[])
         }
     }while(x == 1);
     
-    // in case something goes wrong
+    // free filename
+    free(filename);
     
     // close the raw file
     fclose(input);
