@@ -1,12 +1,13 @@
-1.  TODO
+1.  stdint.h is a header file (library) which defines BYTES
 2.  TODO
-3.  TODO
+3.  1, 4, 4, 1
 4.  TODO
 5.  TODO
-6.  TODO
+6.  Image will be top-down.
 7.  TODO
-8.  TODO
-9.  TODO
-10. TODO
-11. TODO
-12. TODO
+8.  Line 24 might return NULL if the file doesn't exist, while line 32 will return NULL if it can't write the file onto the disk.
+9.  because we're reading one pixel at a time
+10. 3
+11. fseek lets you to jump around the file. SEEK_SET(lets you move from begining of the file, while SEEK_CUR(from the current position of the cursor) 
+and SEEK_END(from the end of the file). 
+12. SEEK_CUR returns the current position of the cursor
