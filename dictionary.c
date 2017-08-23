@@ -9,15 +9,25 @@
 
 #include "dictionary.h"
 
-// to keep track of the first node
-struct node *first = NULL;
+// declare a hash table with pointers to 24 different linked lists
+struct node *ht[24];
 
 // when everything's said and done, the following fuction will destroy(free) the linked list
-bool destroy(struct node* ptr)
+void realdestory(struct node *ptr)
 {
     if(ptr != NULL)
-        destroy(ptr -> next);
+        realdestory(ptr -> next);
     free(ptr);
+}
+
+// iterate through 24 different linked lists and free them
+bool destroy(void)
+{
+    for(int i = 0; i < 24; i++)
+    {
+        struct node* ptr = ht[i];
+        realdestory(ptr);
+    }
     return true;
 }
 
@@ -27,8 +37,16 @@ bool destroy(struct node* ptr)
  */
 bool check(const char *word)
 {
+
     // temp storage for first pointer
-    struct node *ptr = first;
+    int ju;
+    if(word[0] >= 65 && word[0] <= 91)
+        ju = word[0] - 65;
+    else
+        ju = word[0] - 97;
+
+    // temp pointer to the current linked lists
+    struct node *ptr = ht[ju];
 
     // iterate through the linked list
     while(ptr != NULL)
@@ -89,6 +107,12 @@ bool check(const char *word)
  */
 bool load(const char *dictionary)
 {
+    // initialize all the linked lists first pointer to NULL
+    for(int i = 0; i < 24; i++)
+    {
+        ht[i] = NULL;
+    }
+
     // open the dictionary
     FILE *filename = fopen(dictionary, "r");
 
@@ -100,10 +124,12 @@ bool load(const char *dictionary)
     char correct[LENGTH + 1];
 
     // create two nodes
-    struct node *array, *cur = NULL;
+    struct node *array;
 
     while (fscanf(filename, "%s", correct) != EOF)
     {
+        // since all the words in the dicionary are small letter, find the alphabets position
+        int ht_number = correct[0] - 97;
 
         // dynamically allocate memory and check if the fuction returns NULL
         array = malloc(sizeof(words));
@@ -114,14 +140,11 @@ bool load(const char *dictionary)
         strcpy(array -> spell, correct);
 
         // assaign which is the next pointer
-        array -> next = cur;
+        array -> next = ht[ht_number];
 
         // get the current address of the node
-        cur = array;
+        ht[ht_number] = array;
     }
-
-    // first is a global variable which keep track of the first element of the linked list
-    first = cur;
 
     // close the file
     fclose(filename);
@@ -137,13 +160,19 @@ unsigned int size(void)
 {
     // temp variables
     int n = 0;
-    struct node *ptr = first;
 
-    // for every word in the list, increment n by 1
-    while(ptr != NULL)
+    // interate through all the words in the list
+    for(int i = 0; i < 24; i++)
     {
-        n++;
-        ptr = ptr -> next;
+        struct node *ptr = ht[i];
+
+        // for every word in the list, increment n by 1
+        while(ptr != NULL)
+        {
+            // increment n by 1 for every word in the list
+            n++;
+            ptr = ptr -> next;
+        }
     }
 
     // returns the total word in the dictionary
@@ -156,7 +185,7 @@ unsigned int size(void)
 bool unload(void)
 {
     // calls destroy fuctioon and returns true if the fuction returns true
-    if(destroy(first))
+    if(destroy())
         return true;
     else
         return false;
