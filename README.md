@@ -1,3 +1,6 @@
 Harvard's cs50
 
-![load time](http://i.imgur.com/TLRlpEE.jpg)
+
+| First try  | Second try |
+|     :---:      |     :---:      |
+| ![load time](http://i.imgur.com/TLRlpEE.jpg)  | ![less fuction calls](http://i.imgur.com/AdChDwe.png)  |

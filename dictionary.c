@@ -51,13 +51,14 @@ bool check(const char *word)
     // iterate through the linked list
     while(ptr != NULL)
     {
+        int x = strcmp(ptr -> spell, word);
 
         // checks if the current dictionary string and the passed string are equal
-        if(strcmp(ptr -> spell, word) == 0)
+        if(x == 0)
             return true;
 
         // checks if the passed string has less characters than the current dictionary string
-        else if(strcmp(ptr -> spell, word) < 0)
+        else if(x < 0)
             return false;
 
         // checks for the apostrophes usage
