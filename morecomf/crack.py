@@ -1,4 +1,5 @@
 # cracks a password of length one for sanity check
+# https://github.com/ajaymkatte/pset2/blob/master/morecomf/crack.c five characters implementation in c
 
 # import sys and crypt
 import sys
@@ -15,7 +16,7 @@ def main():
     salt = sys.argv[1][0], sys.argv[1][1]
     salt = "".join(salt)
 
-    # interate
+    # iterate
     for i in range(26):
         password = chr(65 + i)
         check(password, salt)
