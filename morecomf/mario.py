@@ -4,8 +4,6 @@ import sys
 # main starts from here
 def main():
 
-    m = 1
-
     # get a number
     while True:
         n = int(input("Enter a number no greater than 23: "))
@@ -14,22 +12,14 @@ def main():
 
     # iterate
     for i in range(n):
-        for x in range(n - m):
-            print(" ", end = "")
+        print(" " *(n - i - 1), end = "")
 
-        for x in range(m):
-            print("#", end = "")
+        print("#" *(i + 1), end = "")
 
         # spacer
         print(" ", end = "")
 
-        for x in range(m):
-            print("#", end = "")
-
-        # print a new line
-        print("")
-
-        m += 1
+        print("#" *(i + 1))
 
 if __name__ == "__main__":
     main()
