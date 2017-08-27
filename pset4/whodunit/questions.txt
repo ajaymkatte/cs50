@@ -1,0 +1,13 @@
+1.  stdint.h is a header file (library) which defines BYTES
+2.  Size of datatypes vary between systems by using the likes of intN_t we remain consistent with the length of data across different computer systems.
+3.  1, 4, 4, 1
+4.  0100110101000010, 0x4D42
+5.  bisize is the resolution of the image including padding, bfsize is the total size plus the size of the mapfileheader i.e 54.
+6.  Image will be top-down.
+7.  biBitCount
+8.  Line 24 might return NULL if the file doesn't exist, while line 32 will return NULL if it can't write the file onto the disk.
+9.  because we're reading one pixel at a time
+10. 3
+11. fseek lets you to jump around the file. SEEK_SET(lets you move from begining of the file, while SEEK_CUR(from the current position of the cursor) 
+and SEEK_END(from the end of the file). 
+12. SEEK_CUR returns the current position of the cursor
