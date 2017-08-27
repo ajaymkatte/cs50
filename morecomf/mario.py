@@ -1,4 +1,5 @@
 # import sys
+# syntax just keeps getting better
 import sys
 
 # main starts from here
