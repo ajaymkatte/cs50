@@ -3,26 +3,27 @@
  */
 
 #include <stdbool.h>
-
 #include <string.h>
 #include <strings.h>
+#include <ctype.h>
 #include "dictionary.h"
 
-// declare a global hash table
-struct node *ht[24];
+#define HASHSIZE 10000
 
-// hashtable
-int hashit(char word)
+// Declare a global hash table
+struct node *ht[HASHSIZE];
+
+// A huge thanks to /u/delipity for the below algorithm
+// Find the hashtable
+int hashit(char* wordhash)
 {
-    int ju;
-    if(word >= 65 && word <= 91)
-        ju = word - 65;
-    else
-        ju = word - 97;
-    return ju;
+    unsigned int hash = 0;
+    for (int i=0, n=strlen(wordhash); i<n; i++)
+        hash = (hash << 2) ^ wordhash[i];
+    return hash % HASHSIZE;
 }
 
-// destroy(free) the linked list
+// Destroy(free) the linked list
 void realdestory(struct node *ptr)
 {
     if(ptr != NULL)
@@ -30,10 +31,10 @@ void realdestory(struct node *ptr)
     free(ptr);
 }
 
-// iterate through linked lists
+// Iterate through linked lists
 bool destroy(void)
 {
-    for(int i = 0; i < 24; i++)
+    for(int i = 0; i < HASHSIZE; i++)
     {
         struct node* ptr = ht[i];
         realdestory(ptr);
@@ -47,10 +48,19 @@ bool destroy(void)
  */
 bool check(const char *word)
 {
+    int wordlength = strlen(word);
+    char lcword[wordlength + 1];
 
-    struct node *ptr = ht[hashit(word[0])];
+    for(int i = 0; i < wordlength; i++)    // (int i = 0, length = strlen(word); i < length; i++)
+    {
+        lcword[i] = tolower(word[i]);
+    }
 
-    // iterate through the linked list
+    lcword[wordlength] = '\0';
+
+    struct node *ptr = ht[hashit(lcword)];
+
+    // Iterate through the linked list
     while(ptr != NULL)
     {
         if(strcasecmp(ptr -> spell, word) == 0)
@@ -59,7 +69,7 @@ bool check(const char *word)
         ptr = ptr -> next;
     }
 
-    // if all else fails, return false
+    // If all else fails, return false
     return false;
 
 }
@@ -69,13 +79,13 @@ bool check(const char *word)
  */
 bool load(const char *dictionary)
 {
-    // initialize all the linked lists first pointer to NULL
-    for(int i = 0; i < 24; i++)
+    // Initialize all the linked lists first pointer to NULL
+    for(int i = 0; i < HASHSIZE; i++)
     {
         ht[i] = NULL;
     }
 
-    // open the dictionary
+    // Open the dictionary
     FILE *filename = fopen(dictionary, "r");
     if(filename == NULL)
         return false;
@@ -85,10 +95,10 @@ bool load(const char *dictionary)
 
     while (fscanf(filename, "%s", correct) != EOF)
     {
-        // find the hashtable
-        int ht_number = hashit(correct[0]);
+        // Find the hashtable
+        int ht_number = hashit(correct);
 
-        // sanity check
+        // Sanity check
         array = malloc(sizeof(words));
         if(array == NULL)
         {
@@ -102,10 +112,10 @@ bool load(const char *dictionary)
         ht[ht_number] = array;
     }
 
-    // close the file
+    // Close the file
     fclose(filename);
 
-    // if everything goes well
+    // If everything goes well
     return true;
 }
 
@@ -116,7 +126,7 @@ unsigned int size(void)
 {
     int n = 0;
 
-    for(int i = 0; i < 24; i++)
+    for(int i = 0; i < HASHSIZE; i++)
     {
         struct node *ptr = ht[i];
 
@@ -134,7 +144,7 @@ unsigned int size(void)
  */
 bool unload(void)
 {
-    // calls destroy function
+    // Calls destroy function
     if(destroy())
         return true;
     else
