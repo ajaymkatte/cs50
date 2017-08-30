@@ -19,33 +19,21 @@ def main():
     # instantiate analyzer
     analyzer = Analyzer(positives, negatives)
 
-    tweet = open("temp", "w")
-
-    tweet = open("temp", "r+")
-
-    x = get_user_timeline(sys.argv[1], 50)
-
-    for element in x:
-        tweet.write("{}".format(element))
-        tweet.write("\n")
-
-    tweet.seek(0,0)
+    tweets = (get_user_timeline(sys.argv[1], 50))
 
     # Break into strings
-    for line in tweet:
+    for element in tweets:
         score = 0
         tokenizer = nltk.tokenize.TweetTokenizer()
-        tokens = tokenizer.tokenize(line)
-        for element in tokens:
-            score += analyzer.analyze(element)
+        tokens = tokenizer.tokenize(element)
+        for word in tokens:
+            score += analyzer.analyze(word)
         if score > 0:
-            print(colored(" {} {}".format(score, line), "green"), end = "")
+            print(colored(" {} {}".format(score, element), "green"))
         elif score < 0:
-            print(colored("{} {}".format(score, line), "red"), end = "")
+            print(colored("{} {}".format(score, element), "red"))
         else:
-            print(colored(" {} {}".format(score, line), "yellow"), end = "")
-
-    tweet.close()
+            print(colored(" {} {}".format(score, element), "yellow"))
 
 if __name__ == "__main__":
     main()
