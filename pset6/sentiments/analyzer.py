@@ -24,12 +24,9 @@ class Analyzer():
     def analyze(self, text):
         """Analyze text for sentiment, returning its score."""
 
-        # Calculate score
         if text.lower() in self.good:
-            score = 1
+            return 1
         elif text.lower() in self.bad:
-            score = -1
+            return -1
         else:
-            score = 0
-
-        return score
+            return 0
