@@ -11,7 +11,7 @@
  * Note that usleep is obsolete, but it offers more granularity than
  * sleep and is simpler to use than nanosleep; `man usleep` for more.
  */
- 
+
 #define _XOPEN_SOURCE 500
 
 #include <cs50.h>
@@ -110,7 +110,7 @@ int main(int argc, string argv[])
         // prompt for move
         printf("Tile to move: ");
         int tile = get_int();
-        
+
         // quit if user inputs 0 (for testing)
         if (tile == 0)
         {
@@ -131,7 +131,7 @@ int main(int argc, string argv[])
         // sleep thread for animation's sake
         usleep(700000);
     }
-    
+
     // close log
     fclose(file);
 
@@ -160,25 +160,26 @@ void greet(void)
 
 /**
  * Initializes the game's board with tiles numbered 1 through d*d - 1
- * (i.e., fills 2D array with values but does not actually print them).  
+ * (i.e., fills 2D array with values but does not actually print them).
  */
 void init(void)
 {
-    int tile=(d*d)-1;
-    printf("%d\n",tile);
-    for(int p=0; p<d; p++)
+    int tile = (d * d) - 1;
+    printf("%d\n", tile);
+
+    for(int p = 0; p < d; p++)
     {
-        for(int q=0; q<d; q++)
+        for(int q = 0; q < d; q++)
         {
-            board[p][q]=tile;
+            board[p][q] = tile;
             --tile;
         }
     }
-    if(d%2==0)
+    if(d%2 == 0)
     {
         int junk = board[d-1][d-2];
-        board[d-1][d-2]=board[d-1][d-3];
-        board[d-1][d-3]=junk;
+        board[d-1][d-2] = board[d-1][d-3];
+        board[d-1][d-3] = junk;
     }
 }
 
@@ -187,14 +188,14 @@ void init(void)
  */
 void draw(void)
 {
-    for(int p=0; p<d; p++)
+    for(int p = 0; p < d; p++)
     {
-        for(int q=0; q<d; q++)
+        for(int q = 0; q < d; q++)
         {
-            if(p==length&&q==width)
+            if(p == length && q == width)
                 printf("_\t");
             else
-                printf("%d\t",board[p][q]);
+                printf("%d\t", board[p][q]);
         }
         printf("\n");
     }
@@ -202,22 +203,26 @@ void draw(void)
 
 /**
  * If tile borders empty space, moves tile and returns true, else
- * returns false. 
+ * returns false.
  */
 bool move(int tile)
 {
-    if(tile<=(d*d)-1)
+    if(tile <= (d * d ) - 1)
     {
         //search for the tile's position
         searchtile(tile);
+
         //checks if the move is valid by iterating through the valid positions and retruns true if the move is indeed a valid one
-        if(((lengthmove==length-1)&&(widthmove==width))||((lengthmove==length+1)&&(widthmove==width))||((lengthmove==length)&&(widthmove==width+1))||((lengthmove==length)&&(widthmove==width-1)))
+        if (((widthmove == width) && (lengthmove == length - 1))
+            || ((widthmove == width) && (lengthmove == length + 1))
+            || ((lengthmove == length)  && (widthmove == width + 1))
+            || ((lengthmove == length) && (widthmove == width - 1)))
         {
-            int junk=board[lengthmove][widthmove];
-            board[lengthmove][widthmove]=board[length][width];
-            board[length][width]=junk;
-            length=lengthmove;
-            width=widthmove;
+            int junk = board[lengthmove][widthmove];
+            board[lengthmove][widthmove] = board[length][width];
+            board[length][width] = junk;
+            length = lengthmove;
+            width = widthmove;
             return true;
         }
     }
@@ -225,19 +230,20 @@ bool move(int tile)
 }
 
 /**
- * Returns true if game is won (i.e., board is in winning configuration), 
+ * Returns true if game is won (i.e., board is in winning configuration),
  * else false.
  */
 bool won(void)
 {
-    int verify=1;
-    for(int p=0; p<d; p++)
+    int verify = 1;
+
+    for(int p = 0; p < d; p++)
     {
-        for(int q=0; q<d; q++)
+        for(int q = 0; q < d; q++)
         {
-            if(p==d-1&&q==d-1&&board[p][q]==0)
+            if(p == d-1 && q == d-1 && board[p][q] == 0)
                 return true;
-            else if(board[p][q]!=verify)
+            else if(board[p][q] != verify)
                 return false;
             ++verify;
         }
@@ -250,14 +256,15 @@ bool won(void)
  */
 void searchtile(int tile)
 {
-    for(int p=0; p<d; p++)
+
+    for(int p = 0; p < d; p++)
     {
-        for(int q=0; q<d; q++)
+        for(int q = 0; q<d; q++)
         {
-            if(board[p][q]==tile)
+            if(board[p][q] == tile)
             {
-                lengthmove=p;
-                widthmove=q;
+                lengthmove = p;
+                widthmove = q;
                 return;
             }
         }
