@@ -1,17 +1,21 @@
 #include<stdio.h>
 #include<cs50.h>
+
 int main()
 {
     int steps, a, b, con, com;
+
+    // get a number greater than 0 and no greater than 23
     do
     {
         printf("Height = ");
         steps = get_int();
     }
     while (steps<0 || steps>23);
-    a=steps;
-    b=steps;
-    con=0;
+
+    int a=steps, b=steps, con=0;
+
+    // iterate till the b is not equal to zero
     while(b!=0)
     {
         a=steps;
@@ -30,4 +34,6 @@ int main()
         printf("#");
         printf("\n");
     }
+
+    return 0;
 }
